@@ -69,10 +69,3 @@ jobs:
           TMPFILE=$(mktemp)
           git diff > "${TMPFILE}"
           git stash -u && git stash drop || true
-
-          reviewdog \
-            -f=diff \
-            -f.diff.strip=1 \
-            -name=textlint-fix \
-            -filter-mode=diff_context \
-            -level=warning < "${TMPFILE}" || true
