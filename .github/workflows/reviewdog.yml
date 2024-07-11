@@ -75,5 +75,4 @@ jobs:
             -f.diff.strip=1 \
             -name=textlint-fix \
             -reporter=github-pr-review \
-            -filter-mode=diff_context \
             -level=warning < "${TMPFILE}"
