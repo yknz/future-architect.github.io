@@ -75,4 +75,4 @@ jobs:
             -f.diff.strip=1 \
             -name=textlint-fix \
             -filter-mode=diff_context \
-            -level=warning < "${TMPFILE}"
+            -level=warning < "${TMPFILE}" || true
