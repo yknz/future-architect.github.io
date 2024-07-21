@@ -64,16 +64,6 @@ jobs:
 
       - name: Make code suggestions
         run: |
-          git diff -z --diff-filter=ACMR --name-only origin/${{github.base_ref}} HEAD \
-            | xargs -0 ${{ steps.detect-package-manager.outputs.runner }} textlint --fix
           mkdir ~/tmp
           git diff > ~/tmp/diff
           git stash -u && git stash drop || true
-
-          reviewdog \
-            -f=diff \
-            -f.diff.strip=1 \
-            -name=textlint-fix \
-            -reporter=github-pr-review \
-            -filter-mode=diff_context \
-            -level=warning < ~/tmp/diff
