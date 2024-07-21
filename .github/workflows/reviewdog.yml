@@ -64,6 +64,8 @@ jobs:
 
       - name: Make code suggestions
         run: |
+          git diff -z --diff-filter=ACMR --name-only origin/${{github.base_ref}} HEAD \
+            | xargs -0 ${{ steps.detect-package-manager.outputs.runner }} textlint --fix
           mkdir ~/tmp
           git diff > ~/tmp/diff
           git stash -u && git stash drop || true
