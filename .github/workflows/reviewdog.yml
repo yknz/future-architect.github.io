@@ -66,7 +66,8 @@ jobs:
         run: |
           git diff -z --diff-filter=ACMR --name-only origin/${{github.base_ref}} HEAD \
             | xargs -0 ${{ steps.detect-package-manager.outputs.runner }} textlint --fix
-          TMPFILE=$(mktemp -p ${{runner.temp}})
+          mkdir ~/tmp
+          TMPFILE=$(mktemp -p ~/tmp)
           git diff > "${TMPFILE}"
           git stash -u && git stash drop || true
 
