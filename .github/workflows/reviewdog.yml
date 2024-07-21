@@ -67,8 +67,7 @@ jobs:
           git diff -z --diff-filter=ACMR --name-only origin/${{github.base_ref}} HEAD \
             | xargs -0 ${{ steps.detect-package-manager.outputs.runner }} textlint --fix
           mkdir ~/tmp
-          TMPFILE=$(mktemp -p ~/tmp)
-          git diff > "${TMPFILE}"
+          git diff > ~/tmp/diff
           git stash -u && git stash drop || true
 
           reviewdog \
@@ -77,4 +76,4 @@ jobs:
             -name=textlint-fix \
             -reporter=github-pr-review \
             -filter-mode=diff_context \
-            -level=warning < "${TMPFILE}"
+            -level=warning < ~/tmp/diff
