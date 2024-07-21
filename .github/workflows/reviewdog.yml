@@ -64,6 +64,7 @@ jobs:
 
       - name: Make code suggestions
         run: |
+          touch dummy.txt
           mkdir ~/tmp
           git diff > ~/tmp/diff
           git stash -u && git stash drop || true
