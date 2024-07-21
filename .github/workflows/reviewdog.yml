@@ -69,3 +69,11 @@ jobs:
           TMPFILE=$(mktemp -p ${{runner.temp}})
           git diff > "${TMPFILE}"
           git stash -u && git stash drop || true
+
+          reviewdog \
+            -f=diff \
+            -f.diff.strip=1 \
+            -name=textlint-fix \
+            -reporter=github-pr-review \
+            -filter-mode=diff_context \
+            -level=warning < "${TMPFILE}"
