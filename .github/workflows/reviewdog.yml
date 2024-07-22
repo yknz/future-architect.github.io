@@ -51,10 +51,10 @@ jobs:
       - name: Fetch base branch
         run: git fetch origin ${{github.base_ref}} --depth=1
 
-      - name: Run textlint
+      - name: Run textlint with reviewdog
         run: |
           git diff -z --diff-filter=ACMR --name-only origin/${{github.base_ref}} HEAD \
-            | xargs -0 ${{ steps.detect-package-manager.outputs.runner }} textlint -f checkstyle \
+            | xargs -0 ${{ steps.detect-package-manager.outputs.runner }} textlint --fix -f checkstyle \
             | reviewdog -f=checkstyle \
               -name=textlint \
               -reporter=github-pr-review \
@@ -62,10 +62,6 @@ jobs:
               -fail-on-error=false \
               -level=warning
 
-      - name: Make code suggestions
-        run: |
-          git diff -z --diff-filter=ACMR --name-only origin/${{github.base_ref}} HEAD \
-            | xargs -0 ${{ steps.detect-package-manager.outputs.runner }} textlint --fix || true
           TMPFILE=$(mktemp -p ${{runner.temp}})
           git diff > "${TMPFILE}"
           git stash -u && git stash drop || true
