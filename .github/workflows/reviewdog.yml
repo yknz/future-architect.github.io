@@ -54,7 +54,10 @@ jobs:
       - name: Run textlint with reviewdog
         run: |
           git diff -z --diff-filter=ACMR --name-only origin/${{github.base_ref}} HEAD \
-            | xargs -0 ${{ steps.detect-package-manager.outputs.runner }} textlint --fix -f checkstyle \
+            | xargs -0 ${{ steps.detect-package-manager.outputs.runner }} textlint --fix || true
+
+          git diff -z --diff-filter=ACMR --name-only origin/${{github.base_ref}} HEAD \
+            | xargs -0 ${{ steps.detect-package-manager.outputs.runner }} textlint -f checkstyle \
             | reviewdog -f=checkstyle \
               -name=textlint \
               -reporter=github-pr-review \
